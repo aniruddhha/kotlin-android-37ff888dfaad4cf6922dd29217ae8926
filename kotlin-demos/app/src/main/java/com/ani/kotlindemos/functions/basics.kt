@@ -24,17 +24,13 @@ fun main() {
     add(70, 30)
     add(y=70, x=30) // named parameters
 
-    infix fun Int.times(str: String) = str.repeat(this) // extention function
-    println(3.times("abc,"))
-    println(2 times "abc,")
+    infix fun Int.plus(str: Int) = str.minus(this) // extention function
+//   println(3.plus("abc,"))
+//    println(2 plus "abc,")
+    println(4.plus(5)) // -1
+    println(4.plus(4)) // 0
 
-    details()
-    details("a")
-    details("a", "b")
-    details("a", "b", "c")
+    println(10.plus(5)) // 5
 
-    val arr = arrayOf("a", "b", "c", "d", "e")
-    details(*arr)
-
-    details("a", "b", "c", "d", "e")
+//
 }
