@@ -4,11 +4,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.ani.kotlindemos.R
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import java.net.URL
 
 class MainActivity : AppCompatActivity() {
 
-    val handler = CoroutineExceptionHandler { _, throwable -> println(throwable.message)  }
+    val client = null
+    val handler = CoroutineExceptionHandler { _, throwable -> println(throwable.message) }
+
+    fun chats(): Flow<Int> = flow {
+        for (i in 1..20) {
+            delay(1200)
+            emit(i)
+        }
+    }
 
     suspend fun networkCall() {
         val url = URL("https://www.google.com/")
@@ -82,5 +91,12 @@ class MainActivity : AppCompatActivity() {
 
         manyTasks()
 
+        CoroutineScope(Dispatchers.IO).launch {
+            chats()
+                .catch { err -> println(err) }
+                .onEach { el -> println("Logging it $el") }
+                .map { el -> el * el }
+                .collect { println(it) }
+        }
     }
 }
