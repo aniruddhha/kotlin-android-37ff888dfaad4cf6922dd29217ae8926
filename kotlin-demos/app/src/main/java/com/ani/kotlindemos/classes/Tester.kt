@@ -1,4 +1,4 @@
-package com.ani.kotlindemos
+package com.ani.kotlindemos.classes
 
 class Tester {
 
