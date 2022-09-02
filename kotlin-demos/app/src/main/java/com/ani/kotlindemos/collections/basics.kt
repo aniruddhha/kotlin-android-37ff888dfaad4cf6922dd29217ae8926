@@ -1,5 +1,6 @@
 package com.ani.kotlindemos.collections
 
+
 fun main() {
 
     val names = mutableListOf(1, 900, 5, 78, 15)
