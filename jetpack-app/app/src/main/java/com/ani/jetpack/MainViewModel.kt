@@ -3,7 +3,6 @@ package com.ani.jetpack
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import java.util.*
 
 class MainViewModel: ViewModel() {
 
@@ -12,16 +11,16 @@ class MainViewModel: ViewModel() {
 
     fun onStClk() {
 //        Log.i("@ani", "Start Clicked")
-        _clk.value = UUID.randomUUID().toString()
+        _clk.value = "start"
     }
 
     fun onMdClk() {
 //        Log.i("@ani", "Center Clicked")
-        _clk.value = UUID.randomUUID().toString()
+        _clk.value = "mid"
     }
 
     fun onEdClk() {
 //        Log.i("@ani", "End Clicked")
-        _clk.value = UUID.randomUUID().toString()
+        _clk.value = "end"
     }
 }
