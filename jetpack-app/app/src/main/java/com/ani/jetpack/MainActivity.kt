@@ -2,6 +2,7 @@ package com.ani.jetpack
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import com.ani.jetpack.databinding.ActivityMainBinding
@@ -42,5 +43,8 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.vm = viewModel
 
+        viewModel.clk.observe(this) {
+            Log.i("@ani", "In Activity $it")
+        }
     }
 }
