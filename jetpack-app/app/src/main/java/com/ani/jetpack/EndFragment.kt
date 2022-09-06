@@ -1,11 +1,9 @@
 package com.ani.jetpack
 
-
 import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-
 
 class EndFragment : DialogFragment() {
 
@@ -17,5 +15,4 @@ class EndFragment : DialogFragment() {
 
         return super.onCreateDialog(savedInstanceState)
     }
-
 }
