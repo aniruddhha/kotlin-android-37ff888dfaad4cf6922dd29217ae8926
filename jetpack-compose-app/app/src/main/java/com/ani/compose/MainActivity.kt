@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,6 +16,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,11 +28,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-           Msgs(msgs = listOf(
-               Msg(from = "abc", msg = "hey hi", dt = "2022-01-01"),
-               Msg(from = "abc", msg = "hey hi", dt = "2022-01-01"),
-               Msg(from = "abc", msg = "hey hi", dt = "2022-01-01"),
-           ))
+            Msgs(
+                msgs = listOf(
+                    Msg(from = "abc", msg = "hey hi", dt = "2022-01-01"),
+                    Msg(from = "abc", msg = "hey hi", dt = "2022-01-01"),
+                    Msg(from = "abc", msg = "hey hi", dt = "2022-01-01"),
+                )
+            )
         }
     }
 }
@@ -45,17 +49,17 @@ fun Calculator() {
     Column() {
 
         TextField(
-            value = num1, 
-            onValueChange = { setNum1(it)  },  
-            label = { Text(text = "Num1") } 
+            value = num1,
+            onValueChange = { setNum1(it) },
+            label = { Text(text = "Num1") }
         )
         TextField(
             value = num2,
-            onValueChange = { setNum2(it)  } ,
+            onValueChange = { setNum2(it) },
             label = { Text(text = "Num2") }
         )
         Button(onClick = {
-            setRes ( num1.text.toInt() + num2.text.toInt() )
+            setRes(num1.text.toInt() + num2.text.toInt())
         }) {
             Text(text = "Result")
         }
@@ -66,7 +70,7 @@ fun Calculator() {
 @Composable
 fun ShowUi() {
 
-    val ( cnt, setCnt ) = remember { mutableStateOf(0) }
+    val (cnt, setCnt) = remember { mutableStateOf(0) }
 
     Column(
         modifier = Modifier
@@ -94,32 +98,46 @@ fun ShowUi() {
 }
 
 data class Msg(
-    val from : String,
-    val msg : String,
-    val dt : String
+    val from: String,
+    val msg: String,
+    val dt: String
 )
 
 @Composable
-fun MsgItm(msg : Msg) {
-    Card(
-    ) {
-        Row( modifier = Modifier.clickable {
-//            AlertDialog(
-//                onDismissRequest = {  },
-//                title = { Text(text = "Title") },
-//                confirmButton = { },
-//                dismissButton = { }
-//            )
-        }) {
-            Column {
+fun MsgItm(msg: Msg) {
+    val (isSh , setIsSh) = remember { mutableStateOf(false) }
+
+    ConfirmBox(isSh, setIsSh)
+
+    Card{
+        Box(
+            modifier = Modifier.clickable(
+                onClick = {
+                    setIsSh(true)
+                }
+            )
+                .border(3.dp, Color.Black)
+                .fillMaxWidth()
+                .height(80.dp)
+        ) {
+            Column(
+                modifier = Modifier.align(Alignment.TopStart)
+                    .padding(8.dp)
+            ) {
                 Text(text = msg.from)
-                Text(text = msg.msg)
+                Text(
+                    text = msg.msg,
+                    fontSize = 25.sp
+                )
             }
-            Column {
+            Column(
+                modifier = Modifier.align(Alignment.TopEnd)
+                .padding(8.dp)
+            ) {
                 Text(text = msg.dt)
                 Image(
-                    painter = painterResource(R.drawable.ic_android_black_24dp ),
-                    contentDescription = "android logo"
+                    painter = painterResource(R.drawable.ic_android_black_24dp),
+                    contentDescription = "android logo",
                 )
             }
         }
@@ -127,7 +145,7 @@ fun MsgItm(msg : Msg) {
 }
 
 @Composable
-fun Msgs(msgs : List<Msg> ) {
+fun Msgs(msgs: List<Msg>) {
 
 //    Column {
 //        msgs.forEach {  msg -> MsgItm(msg = msg) }
@@ -137,6 +155,20 @@ fun Msgs(msgs : List<Msg> ) {
         items(msgs) { msg ->
             MsgItm(msg = msg)
         }
+    }
+}
+
+@Composable
+fun ConfirmBox(isSh: Boolean, onClose : (sh : Boolean) -> Unit) {
+    if (isSh) {
+        AlertDialog(
+            onDismissRequest = { },
+            title = { Text(text = "Title") },
+            confirmButton = { },
+            dismissButton = { TextButton(onClick = { onClose(false) }) {
+                Text(text = "Colse")
+            }  }
+        )
     }
 }
 
