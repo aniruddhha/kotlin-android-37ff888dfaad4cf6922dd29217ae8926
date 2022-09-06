@@ -4,16 +4,20 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -22,7 +26,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-           Calculator()
+           Msgs(msgs = listOf(
+               Msg(from = "abc", msg = "hey hi", dt = "2022-01-01"),
+               Msg(from = "abc", msg = "hey hi", dt = "2022-01-01"),
+               Msg(from = "abc", msg = "hey hi", dt = "2022-01-01"),
+           ))
         }
     }
 }
@@ -84,4 +92,61 @@ fun ShowUi() {
         }
     }
 }
+
+data class Msg(
+    val from : String,
+    val msg : String,
+    val dt : String
+)
+
+@Composable
+fun MsgItm(msg : Msg) {
+    Card(
+    ) {
+        Row( modifier = Modifier.clickable {
+//            AlertDialog(
+//                onDismissRequest = {  },
+//                title = { Text(text = "Title") },
+//                confirmButton = { },
+//                dismissButton = { }
+//            )
+        }) {
+            Column {
+                Text(text = msg.from)
+                Text(text = msg.msg)
+            }
+            Column {
+                Text(text = msg.dt)
+                Image(
+                    painter = painterResource(R.drawable.ic_android_black_24dp ),
+                    contentDescription = "android logo"
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun Msgs(msgs : List<Msg> ) {
+
+//    Column {
+//        msgs.forEach {  msg -> MsgItm(msg = msg) }
+//    }
+
+    LazyColumn {
+        items(msgs) { msg ->
+            MsgItm(msg = msg)
+        }
+    }
+}
+
+//@Preview
+//@Composable
+//fun AppPrv() {
+//    Msgs(msgs = listOf(
+//        Msg(from = "abc", msg = "hey hi", dt = "2022-01-01"),
+//        Msg(from = "abc", msg = "hey hi", dt = "2022-01-01"),
+//        Msg(from = "abc", msg = "hey hi", dt = "2022-01-01"),
+//    ))
+//}
 
