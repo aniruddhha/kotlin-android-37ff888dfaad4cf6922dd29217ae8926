@@ -33,6 +33,7 @@ class MainActivity : ComponentActivity() {
                     Msg(from = "abc", msg = "hey hi", dt = "2022-01-01"),
                     Msg(from = "abc", msg = "hey hi", dt = "2022-01-01"),
                     Msg(from = "abc", msg = "hey hi", dt = "2022-01-01"),
+                    Msg(from = "abc", msg = "hey hi", dt = "2022-01-01"),
                 )
             )
         }
@@ -105,23 +106,25 @@ data class Msg(
 
 @Composable
 fun MsgItm(msg: Msg) {
-    val (isSh , setIsSh) = remember { mutableStateOf(false) }
+    val (isSh, setIsSh) = remember { mutableStateOf(false) }
 
     ConfirmBox(isSh, setIsSh)
 
-    Card{
+    Card {
         Box(
-            modifier = Modifier.clickable(
-                onClick = {
-                    setIsSh(true)
-                }
-            )
+            modifier = Modifier
+                .clickable(
+                    onClick = {
+                        setIsSh(true)
+                    }
+                )
                 .border(3.dp, Color.Black)
                 .fillMaxWidth()
                 .height(80.dp)
         ) {
             Column(
-                modifier = Modifier.align(Alignment.TopStart)
+                modifier = Modifier
+                    .align(Alignment.TopStart)
                     .padding(8.dp)
             ) {
                 Text(text = msg.from)
@@ -131,8 +134,9 @@ fun MsgItm(msg: Msg) {
                 )
             }
             Column(
-                modifier = Modifier.align(Alignment.TopEnd)
-                .padding(8.dp)
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(8.dp)
             ) {
                 Text(text = msg.dt)
                 Image(
@@ -159,15 +163,19 @@ fun Msgs(msgs: List<Msg>) {
 }
 
 @Composable
-fun ConfirmBox(isSh: Boolean, onClose : (sh : Boolean) -> Unit) {
+fun ConfirmBox(isSh: Boolean, onClose: (sh: Boolean) -> Unit) {
     if (isSh) {
         AlertDialog(
             onDismissRequest = { },
             title = { Text(text = "Title") },
             confirmButton = { },
-            dismissButton = { TextButton(onClick = { onClose(false) }) {
-                Text(text = "Colse")
-            }  }
+            dismissButton = {
+                TextButton(
+                    onClick = { onClose(false) }
+                ) {
+                    Text(text = "Close")
+                }
+            }
         )
     }
 }

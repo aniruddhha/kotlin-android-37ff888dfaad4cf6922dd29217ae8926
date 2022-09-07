@@ -1,12 +1,18 @@
 package com.ani.storagebatchapp
 
+import android.app.Activity
 import android.content.ContentValues
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.room.Room
 import com.ani.storagebatchapp.db.TicketDb
 import com.ani.storagebatchapp.domain.Ticket
@@ -21,6 +27,32 @@ import java.io.FileOutputStream
 class MainActivity : AppCompatActivity() {
 
     private val scp = CoroutineScope(Dispatchers.IO)
+
+    private val startActivityForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            Log.i("@ani", result.data.toString() ?: "")
+            Log.i("@ani", "" + result.data?.data)
+            Log.i("@ani", "Result is ${result.resultCode == Activity.RESULT_OK}")
+            result?.let { res ->
+                res.data?.data?.let { uri ->
+                    val pfd = contentResolver.openFileDescriptor(uri, "w")
+                    pfd?.fileDescriptor?.let { fd ->
+                        Log.i("@ani", "Reached ")
+                        FileOutputStream(fd).use {
+                            it.write("hey ho how are you".toByteArray())
+                        }
+                    }
+
+                    val pfdRd = contentResolver.openFileDescriptor(uri, "r")
+                    pfdRd?.fileDescriptor?.let { fd ->
+                        val txt = FileInputStream(fd).use {
+                            it.bufferedReader().readText()
+                        }
+                        Log.i("@ani", txt)
+                    }
+                }
+            }
+        }
 
     private val db by lazy {
         Room.databaseBuilder(
@@ -44,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                 it.write("Hi hello are you".toByteArray())
             }
 
-            val str = openFileInput("abc.txt").use {  it.bufferedReader().readText()  }
+            val str = openFileInput("abc.txt").use { it.bufferedReader().readText() }
             Log.i("@ani", str)
         }
 
@@ -72,22 +104,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.button5).setOnClickListener {
-
-            val resolver = applicationContext.contentResolver
-
-            val uri = MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
-
-            val metaDt = ContentValues().apply {
-                put(MediaStore.Files.FileColumns.DISPLAY_NAME, "abx.txt")
-            }
-
-            val savedUri = resolver.insert(uri, metaDt)
-            Log.i("@ani", "${savedUri.toString()}")
-
-            val str = savedUri?.let { ur ->
-                resolver.openInputStream(ur).use { it?.bufferedReader()?.readText() }
-            }
-            Log.i("@ani", str!!)
+            createFile()
         }
 
         findViewById<Button>(R.id.button2).setOnClickListener {
@@ -115,7 +132,7 @@ class MainActivity : AppCompatActivity() {
 
             scp.launch {
                 repo.findAllAsync().collect { tickets ->
-                    tickets.forEach {  Log.i("@ani", it.toString())  }
+                    tickets.forEach { Log.i("@ani", it.toString()) }
                 }
             }
 //
@@ -137,5 +154,14 @@ class MainActivity : AppCompatActivity() {
 //            }
 
         }
+    }
+
+    private fun createFile() {
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TITLE, "tpmt.txt")
+        }
+        startActivityForResult.launch(intent)
     }
 }
