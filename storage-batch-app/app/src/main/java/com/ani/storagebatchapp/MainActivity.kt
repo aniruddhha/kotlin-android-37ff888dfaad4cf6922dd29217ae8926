@@ -6,14 +6,34 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
+import android.widget.TextView
+import androidx.room.Room
+import com.ani.storagebatchapp.db.TicketDb
+import com.ani.storagebatchapp.domain.Ticket
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity() {
+
+    private val scp = CoroutineScope(Dispatchers.IO)
+
+    private val db by lazy {
+        Room.databaseBuilder(
+            applicationContext,
+            TicketDb::class.java,
+            "ticket-db"
+        ).build()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val repo = db.ticketRepository()
 
         findViewById<Button>(R.id.button).setOnClickListener {
 
@@ -67,6 +87,30 @@ class MainActivity : AppCompatActivity() {
                 resolver.openInputStream(ur).use { it?.bufferedReader()?.readText() }
             }
             Log.i("@ani", str!!)
+        }
+
+        findViewById<Button>(R.id.button2).setOnClickListener {
+
+//            scp.launch {
+//
+//                repo.createNewTicket(
+//                    Ticket(1, "OS installation", false)
+//                )
+//
+//                repo.createNewTicket(
+//                    Ticket(2, "Wifi not connecting", false)
+//                )
+//            }
+
+            scp.launch {
+                repo.findAll().forEach {
+                    Log.i("@ani", "${it.issue}")
+
+                    scp.launch(Dispatchers.Main) {
+                        findViewById<TextView>(R.id.textView).append(it.issue)
+                    }
+                }
+            }
         }
     }
 }
