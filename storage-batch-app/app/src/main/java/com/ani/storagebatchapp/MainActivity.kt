@@ -113,11 +113,11 @@ class MainActivity : AppCompatActivity() {
 //                }
 //            }
 
-//            scp.launch {
-//                repo.findAllAsync().collect { tickets ->
-//                    tickets.forEach {  Log.i("@ani", it.toString())  }
-//                }
-//            }
+            scp.launch {
+                repo.findAllAsync().collect { tickets ->
+                    tickets.forEach {  Log.i("@ani", it.toString())  }
+                }
+            }
 //
 //            scp.launch {
 //                repo.deleteTicket(
@@ -129,11 +129,13 @@ class MainActivity : AppCompatActivity() {
 //                )
 //            }
 
-            scp.launch {
-                repo.findAllAsync().collect { tickets ->
-                    tickets.forEach {  Log.i("@ani", it.toString())  }
-                }
-            }
+//
+
+//            scp.launch {
+//                val cur = repo.findAllByCursor()
+//                Log.i("@ani", ""+cur)
+//            }
+
         }
     }
 }

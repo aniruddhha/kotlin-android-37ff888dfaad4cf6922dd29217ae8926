@@ -1,5 +1,6 @@
 package com.ani.storagebatchapp.repository
 
+import android.database.Cursor
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -21,4 +22,7 @@ interface TicketRepository {
 
     @Delete
     suspend fun deleteTicket(ticket: Ticket)
+
+    @Query("select * from ticket")
+    fun findAllByCursor() : Cursor
 }
