@@ -12,6 +12,7 @@ import com.ani.storagebatchapp.db.TicketDb
 import com.ani.storagebatchapp.domain.Ticket
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileInputStream
@@ -102,13 +103,35 @@ class MainActivity : AppCompatActivity() {
 //                )
 //            }
 
-            scp.launch {
-                repo.findAll().forEach {
-                    Log.i("@ani", "${it.issue}")
+//            scp.launch {
+//                repo.findAll().forEach {
+//                    Log.i("@ani", "${it.issue}")
+//
+//                    scp.launch(Dispatchers.Main) {
+//                        findViewById<TextView>(R.id.textView).append(it.issue)
+//                    }
+//                }
+//            }
 
-                    scp.launch(Dispatchers.Main) {
-                        findViewById<TextView>(R.id.textView).append(it.issue)
-                    }
+//            scp.launch {
+//                repo.findAllAsync().collect { tickets ->
+//                    tickets.forEach {  Log.i("@ani", it.toString())  }
+//                }
+//            }
+//
+//            scp.launch {
+//                repo.deleteTicket(
+//                    Ticket(
+//                        tid = 1,
+//                        issue = "",
+//                        status = false
+//                    )
+//                )
+//            }
+
+            scp.launch {
+                repo.findAllAsync().collect { tickets ->
+                    tickets.forEach {  Log.i("@ani", it.toString())  }
                 }
             }
         }
