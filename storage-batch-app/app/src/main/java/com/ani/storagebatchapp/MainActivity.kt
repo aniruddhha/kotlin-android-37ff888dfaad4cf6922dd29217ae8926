@@ -42,14 +42,6 @@ class MainActivity : AppCompatActivity() {
                             it.write("hey ho how are you".toByteArray())
                         }
                     }
-
-                    val pfdRd = contentResolver.openFileDescriptor(uri, "r")
-                    pfdRd?.fileDescriptor?.let { fd ->
-                        val txt = FileInputStream(fd).use {
-                            it.bufferedReader().readText()
-                        }
-                        Log.i("@ani", txt)
-                    }
                 }
             }
         }
