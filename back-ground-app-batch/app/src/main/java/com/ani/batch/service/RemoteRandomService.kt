@@ -2,27 +2,23 @@ package com.ani.batch.service
 
 import android.app.*
 import android.content.Intent
-import android.graphics.Color
-import android.os.Binder
 import android.os.Build
 import android.os.IBinder
+import android.os.Process
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import java.util.*
 
-class ForegroundService : Service() {
+class RemoteRandomService : Service() {
 
-    private val binder = LocalBinder()
+    private val random = Random()
 
-    inner class LocalBinder : Binder() {
-        fun getRemoteService() : ForegroundService = this@ForegroundService
+    private val binder = object : IRemoteRandomGenerator.Stub() {
+
+        override fun pid(): Int = Process.myPid()
+
+        override fun randomNumber(): Int = random.nextInt()
     }
-
-    private val generator = Random()
-
-    val generateNewRandomNumber get()  = generator.nextInt();
-
-    override fun onBind(intent: Intent): IBinder = binder
 
     override fun onCreate() {
         super.onCreate()
@@ -30,9 +26,7 @@ class ForegroundService : Service() {
         startServiceInForeground()
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        return super.onStartCommand(intent, flags, startId)
-    }
+    override fun onBind(intent: Intent): IBinder = binder
 
     private fun startServiceInForeground() {
 
@@ -54,7 +48,7 @@ class ForegroundService : Service() {
         startForeground(12, notification)
     }
 
-    private fun createPendingIntent() : PendingIntent  {
+    private fun createPendingIntent() : PendingIntent {
         val intent = Intent(this, MainActivity::class.java)
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PendingIntent.getActivity(
@@ -85,6 +79,4 @@ class ForegroundService : Service() {
         service.createNotificationChannel(channel)
         return channelId
     }
-
-
 }

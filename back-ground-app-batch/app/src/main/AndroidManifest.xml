@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ani.batch.service">
 
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -15,14 +15,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BatchBackgroundApp"
         tools:targetApi="31">
+
+        <service
+            android:name=".RemoteRandomService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.ani.batch.service.REMOTE_SERVICE"/>
+            </intent-filter>
+        </service>
+
         <service
             android:name=".ForegroundService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="false" />
         <service
             android:name=".NormalService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="false" />
 
         <activity
             android:name=".MainActivity"
