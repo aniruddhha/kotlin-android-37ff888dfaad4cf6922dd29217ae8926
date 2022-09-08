@@ -9,6 +9,7 @@ import android.os.IBinder
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import androidx.lifecycle.Observer
 import androidx.work.*
 import java.util.concurrent.TimeUnit
 
@@ -70,7 +71,17 @@ class MainActivity : AppCompatActivity() {
                 uploadImagesWorkerRequest
             )
 
-
+        WorkManager.getInstance(this)
+            .getWorkInfoByIdLiveData(uploadImagesWorkerRequest.id)
+            .observe(this) {
+                when (it.state) {
+                    WorkInfo.State.RUNNING -> { Log.i("@ani", "Running Worker") }
+                    WorkInfo.State.ENQUEUED -> { Log.i("@ani", "Enqueued Worker") }
+                    WorkInfo.State.FAILED -> { Log.i("@ani", "Failed Worker") }
+                    WorkInfo.State.SUCCEEDED -> { Log.i("@ani", "Success Worker") }
+                    else -> Log.i("@ani", "Invalid State")
+                }
+            }
 //        val uploadImagesWorkerRequest = PeriodicWorkRequestBuilder<HeartMessageWorker>(16, TimeUnit.MINUTES).build()
 //
 //        WorkManager.getInstance(this)
