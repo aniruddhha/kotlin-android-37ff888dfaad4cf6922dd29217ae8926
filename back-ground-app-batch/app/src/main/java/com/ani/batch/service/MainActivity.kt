@@ -9,6 +9,8 @@ import android.os.IBinder
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import androidx.work.*
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,10 +29,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
+    private fun serviceRelated() {
         val intent = Intent(this, ForegroundService::class.java)
 
         findViewById<Button>(R.id.button).setOnClickListener {
@@ -49,5 +48,36 @@ class MainActivity : AppCompatActivity() {
                 text = "${runningService?.generateNewRandomNumber}"
             }
         }
+
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val uploadImagesWorkerRequest = OneTimeWorkRequestBuilder<HeartMessageWorker>()
+            .setConstraints(
+                Constraints.Builder()
+                    .setRequiresCharging(true)
+                    .setRequiresBatteryNotLow(true)
+                    .build()
+            )
+            .build()
+        WorkManager.getInstance(this)
+            .enqueueUniqueWork(
+                "abc",
+                ExistingWorkPolicy.REPLACE,
+                uploadImagesWorkerRequest
+            )
+
+
+//        val uploadImagesWorkerRequest = PeriodicWorkRequestBuilder<HeartMessageWorker>(16, TimeUnit.MINUTES).build()
+//
+//        WorkManager.getInstance(this)
+//                .enqueueUniquePeriodicWork(
+//                    "abc",
+//                    ExistingPeriodicWorkPolicy.KEEP,
+//                    uploadImagesWorkerRequest
+//                )
     }
 }
