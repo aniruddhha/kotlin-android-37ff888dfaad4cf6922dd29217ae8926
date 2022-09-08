@@ -1,21 +1,22 @@
 package com.ani.batch.service
 
-import android.content.ComponentName
-import android.content.Intent
-import android.content.ServiceConnection
+import android.content.*
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
-import androidx.lifecycle.Observer
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.work.*
-import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var lb  : LocalBroadcastManager
+
     private var runningService : ForegroundService? = null
+
+    private val br = AppReceiver()
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -52,10 +53,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
+    private fun workerManager() {
         val uploadImagesWorkerRequest = OneTimeWorkRequestBuilder<HeartMessageWorker>()
             .setConstraints(
                 Constraints.Builder()
@@ -90,5 +88,30 @@ class MainActivity : AppCompatActivity() {
 //                    ExistingPeriodicWorkPolicy.KEEP,
 //                    uploadImagesWorkerRequest
 //                )
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val filters = IntentFilter()
+        filters.addAction("com.ani.working")
+//        registerReceiver(br, filters)
+
+        lb = LocalBroadcastManager.getInstance(this)
+
+        lb.registerReceiver(br, filters)
+
+        findViewById<Button>(R.id.button4).setOnClickListener {
+            val brInt = Intent("com.ani.working")
+            lb.sendBroadcast(brInt)
+        }
+    }
+
+    override fun onDestroy() {
+        unregisterReceiver(br)
+        super.onDestroy()
+
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(br)
     }
 }
