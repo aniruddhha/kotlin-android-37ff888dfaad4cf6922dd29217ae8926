@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "583480290799",
+    "project_id": "contentproviderbatchapp",
+    "storage_bucket": "contentproviderbatchapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:583480290799:android:7444954072f59d7aa69a1a",
+        "android_client_info": {
+          "package_name": "com.ani.contentproviderbatchapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "583480290799-dkub2gk96ghvp5e66k3q2pjeucogralo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBr-OaYUqF21XZwwjzWSwcAd4AmPaL9YGg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "583480290799-dkub2gk96ghvp5e66k3q2pjeucogralo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
