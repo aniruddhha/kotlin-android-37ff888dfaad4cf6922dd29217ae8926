@@ -19,3 +19,13 @@ data class Support(
     @SerializedName("url") var url: String? = null,
     @SerializedName("text") var text: String? = null
 )
+
+data class AppUser(
+    val email : String,
+    val password : String
+)
+
+data class ResponseCreateUser(
+    val id : Int,
+    val token : String
+)
