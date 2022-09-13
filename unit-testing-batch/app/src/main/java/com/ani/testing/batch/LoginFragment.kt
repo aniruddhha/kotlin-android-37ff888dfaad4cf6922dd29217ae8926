@@ -1,31 +1,26 @@
 package com.ani.testing.batch
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import com.ani.testing.batch.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = LoginFragment()
-    }
-
-    private lateinit var viewModel: LoginViewModel
+    private val viewModel: LoginViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_login, container, false)
-    }
+    ): View {
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
+        val root = FragmentLoginBinding.inflate(inflater, container, false)
+        root.vm = viewModel
+        root.lifecycleOwner = viewLifecycleOwner
 
+        return root.root
+    }
 }
