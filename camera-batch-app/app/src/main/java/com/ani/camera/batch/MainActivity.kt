@@ -20,7 +20,7 @@ import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var cameraExecutor : ExecutorService
+    private lateinit var cameraExecutor: ExecutorService
     private var imageCapture: ImageCapture? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,9 +44,9 @@ class MainActivity : AppCompatActivity() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
         cameraProviderFuture.addListener({
-            val cameraProvider : ProcessCameraProvider = cameraProviderFuture.get()
+            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
-            val preview : Preview = Preview.Builder()
+            val preview: Preview = Preview.Builder()
                 .build()
                 .also {
                     it.setSurfaceProvider(findViewById<PreviewView>(R.id.previewView).surfaceProvider)
@@ -79,18 +79,19 @@ class MainActivity : AppCompatActivity() {
         ).build()
 
 
-        val onSaved : ImageCapture.OnImageSavedCallback = object : ImageCapture.OnImageSavedCallback {
+        val onSaved: ImageCapture.OnImageSavedCallback =
+            object : ImageCapture.OnImageSavedCallback {
 
-            override fun onImageSaved(res: ImageCapture.OutputFileResults) {
-                Log.i("@ani",  "Success : ${res.savedUri}")
+                override fun onImageSaved(res: ImageCapture.OutputFileResults) {
+                    Log.i("@ani", "Success : ${res.savedUri}")
 //                Toast.makeText(this@MainActivity, "Success : ${res.savedUri}", Toast.LENGTH_LONG ).show()
-            }
+                }
 
-            override fun onError(exception: ImageCaptureException) {
+                override fun onError(exception: ImageCaptureException) {
 //                Toast.makeText(this@MainActivity, "Error In Saving Image", Toast.LENGTH_LONG ).show()
-                Log.i("@ani",  "Error In Saving Image")
+                    Log.i("@ani", "Error In Saving Image")
+                }
             }
-        }
 
         imageCapture.takePicture(
             outOps,

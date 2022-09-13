@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AidlClient.iml" filepath="$PROJECT_DIR$/.idea/modules/AidlClient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AidlClient.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AidlClient.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AidlClient.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AidlClient.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AidlClient.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AidlClient.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AidlClient.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AidlClient.app.unitTest.iml" />
+    </modules>
+  </component>
+</project>

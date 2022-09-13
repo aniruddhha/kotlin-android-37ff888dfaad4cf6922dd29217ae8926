@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="vm"
+            type="com.ani.testing.LoginViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".LoginFragment">
+
+        <EditText
+            android:id="@+id/etEm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="96dp"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:onTextChanged="@{ (ch, st, ed, cnt) -> vm.onEm(ch) }"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/etPs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:onTextChanged="@{(ch, st, ed, cnt) -> vm.onPs(ch) }"
+            app:layout_constraintStart_toStartOf="@+id/etEm"
+            app:layout_constraintTop_toBottomOf="@+id/etEm" />
+
+        <Button
+            android:id="@+id/btLg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="Login"
+            app:layout_constraintEnd_toEndOf="@+id/etPs"
+            app:layout_constraintTop_toBottomOf="@+id/etPs"
+            android:onClick="@{ () -> vm.onLgn()}"/>
+
+        <TextView
+            android:id="@+id/txtSts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="48dp"
+            android:text="@{vm.sts}"
+            app:layout_constraintStart_toStartOf="@+id/etPs"
+            app:layout_constraintTop_toBottomOf="@+id/btLg" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
