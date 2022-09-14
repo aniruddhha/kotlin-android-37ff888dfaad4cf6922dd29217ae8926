@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config>
+        <domain includeSubdomains="true">api.trello.com</domain>
+        <pin-set expiration="2023-02-24">
+            <pin digest="SHA-256">eDDXIPReO+mpqzxVARQI4D/NGzVkfHtQQO2gfas3rxU=</pin>
+        </pin-set>
+    </domain-config>
+</network-security-config>
